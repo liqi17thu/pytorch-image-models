@@ -267,6 +267,10 @@ class EfficientNetBuilder:
             if self.verbose:
                 logging.info('  ConvBnAct {}, Args: {}'.format(block_idx, str(ba)))
             block = ConvBnAct(**ba)
+        elif bt == 'pl':
+            if self.verbose:
+                logging.info('  PoolingConv {}, Args: {}'.format(block_idx, str(ba)))
+            block = PoolingConv(**ba)
         else:
             assert False, 'Uknkown block type (%s) while building model.' % bt
         self.in_chs = ba['out_chs']  # update in_chs for arg of next block

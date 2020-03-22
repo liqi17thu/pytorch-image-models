@@ -95,3 +95,15 @@ class SelectAdaptivePool2d(nn.Module):
         return self.__class__.__name__ + ' (' \
                + 'output_size=' + str(self.output_size) \
                + ', pool_type=' + self.pool_type + ')'
+
+
+class MaxAvgPool(nn.Module):
+    def __init__(self, kernel, stride, padding):
+        super(MaxAvgPool, self).__init__()
+
+        self.avg = nn.AvgPool2d(kernel, stride, padding)
+        self.max = nn.MaxPool2d(kernel, stride, padding)
+        self.scale = nn.Parameter(torch.Tensor([0]))
+
+    def forward(self, x):
+        return self.avg(x) + self.max(x) * self.scale
