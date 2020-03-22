@@ -39,6 +39,7 @@ default_cfgs = {
     'mobilenetv3_rw': _cfg(
         url='https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/mobilenetv3_100-35495452.pth',
         interpolation='bicubic'),
+    'mobilenetv3_large_100_pl': _cfg(url=''),
     'tf_mobilenetv3_large_075': _cfg(
         url='https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/tf_mobilenetv3_large_075-150ee8b0.pth',
         mean=IMAGENET_INCEPTION_MEAN, std=IMAGENET_INCEPTION_STD),
@@ -76,7 +77,7 @@ class MobileNetV3(nn.Module):
                  channel_multiplier=1.0, pad_type='', act_layer=nn.ReLU, drop_rate=0., drop_path_rate=0.,
                  se_kwargs=None, norm_layer=nn.BatchNorm2d, norm_kwargs=None, global_pool='avg'):
         super(MobileNetV3, self).__init__()
-        
+
         self.num_classes = num_classes
         self.num_features = num_features
         self.drop_rate = drop_rate
@@ -96,7 +97,7 @@ class MobileNetV3(nn.Module):
         self.blocks = nn.Sequential(*builder(self._in_chs, block_args))
         self.feature_info = builder.features
         self._in_chs = builder.in_chs
-        
+
         # Head + Pooling
         self.global_pool = SelectAdaptivePool2d(pool_type=global_pool)
         self.conv_head = create_conv2d(self._in_chs, self.num_features, 1, padding=pad_type, bias=head_bias)

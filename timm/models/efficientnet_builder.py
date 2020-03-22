@@ -82,7 +82,7 @@ def _decode_block_str(block_str):
 
     num_repeat = int(options['r'])
     # each type of block has different valid arguments, fill accordingly
-    if block_type == 'ir':
+    if block_type == 'ir' or block_type == 'pl':
         block_args = dict(
             block_type=block_type,
             dw_kernel_size=_parse_ksize(options['k']),
